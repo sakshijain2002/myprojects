@@ -1,0 +1,17 @@
+package com.learning.entity;
+
+import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.persistence.Id;
+import java.lang.annotation.Documented;
+@Data
+@Document(collection = "student")
+public class StudentCollection {
+    @Id
+    private Long id;
+    private String name;
+    private Long contactDetails;
+    private String qualification;
+    private String email;
+}

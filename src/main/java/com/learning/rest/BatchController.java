@@ -5,25 +5,23 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import com.learning.models.StudentModel;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import com.learning.models.BatchModel;
-import com.learning.models.CourseModel;
 import com.learning.service.impl.BatchService;
-import org.springframework.web.multipart.MultipartFile;
 
 
 @RestController
 @RequestMapping("/batch")
-@RequiredArgsConstructor
+
 public class BatchController {
 
 
 	private final BatchService batchService;
+
+	public BatchController(BatchService batchService) {
+		this.batchService = batchService;
+	}
 
 
 	@GetMapping

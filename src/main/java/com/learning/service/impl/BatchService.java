@@ -1,24 +1,17 @@
 package com.learning.service.impl;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-import javax.persistence.Id;
-
 import com.learning.constants.NumberConstant;
-import com.learning.exception.DataNotFoundException;
+import com.learning.entity.BatchEntity;
+import com.learning.models.BatchModel;
+import com.learning.repository.BatchRepository;
+import com.learning.service.CommonService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import com.learning.entity.BatchEntity;
-import com.learning.entity.StudentEntity;
-import com.learning.models.BatchModel;
-import com.learning.models.StudentModel;
-import com.learning.repository.BatchRepository;
-import com.learning.service.CommonService;
+import java.util.*;
+import java.util.stream.Collectors;
 
 	@Service
 	@RequiredArgsConstructor
@@ -121,7 +114,7 @@ import com.learning.service.CommonService;
 				BatchModel batchModel = modelMapper.map(batchEntity, BatchModel.class);
 				return batchModel;
 			}
-			throw new DataNotFoundException("data not found"+id);
+			throw new IllegalArgumentException("data not found"+id);
 
 
 		}

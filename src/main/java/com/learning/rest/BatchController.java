@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import com.learning.models.BatchModel;
@@ -13,15 +14,14 @@ import com.learning.service.impl.BatchService;
 
 @RestController
 @RequestMapping("/batch")
+@RequiredArgsConstructor
 
 public class BatchController {
 
 
 	private final BatchService batchService;
 
-	public BatchController(BatchService batchService) {
-		this.batchService = batchService;
-	}
+
 
 
 	@GetMapping

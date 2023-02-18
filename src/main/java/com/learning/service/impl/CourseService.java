@@ -1,40 +1,30 @@
 package com.learning.service.impl;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import javax.persistence.Id;
-
 import com.learning.constants.NumberConstant;
-import com.learning.entity.StudentEntity;
-import com.learning.exception.DataNotFoundException;
+import com.learning.entity.CourseEntity;
+import com.learning.models.CourseModel;
+import com.learning.repository.CourseRepository;
+import com.learning.service.CommonService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import com.learning.entity.BatchEntity;
-import com.learning.entity.CourseEntity;
-import com.learning.models.BatchModel;
-import com.learning.models.CourseModel;
-import com.learning.repository.CourseRepository;
-import com.learning.service.CommonService;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+
 public class CourseService implements CommonService<CourseModel, Long>{
 		
 		private final CourseRepository courseRepo;
 	    private final ModelMapper modelMapper;
-		
 
 
-		@Override
+
+	@Override
 		public List<CourseModel> getAllRecords() {
 			List<CourseEntity> courseEntityList = courseRepo.findAll();
 			if (!CollectionUtils.isEmpty(courseEntityList)) {
@@ -74,23 +64,24 @@ public class CourseService implements CommonService<CourseModel, Long>{
 		@Override
 		public List<CourseModel> getSortedRecords(String sortBy) {
 
-			List<CourseEntity> courseEntityList = courseRepo.findAll();
-			if (Objects.nonNull(courseEntityList) && courseEntityList.size() > NumberConstant.ZERO) {
-				Comparator<CourseEntity> comparator = findSuitableComparator(sortBy);
-				List<CourseModel> courseModelList = courseEntityList.stream()
-						.sorted(comparator)
-						.map(courseEntity -> {
-							CourseModel courseModel = modelMapper.map(courseEntity, CourseModel.class);
-							return courseModel;
-						})
-						.collect(Collectors.toList());
-				return courseModelList;
-			} else {
-				return Collections.emptyList();
-			}
-
-
+//			List<CourseEntity> courseEntityList = courseRepo.findAll();
+//			if (Objects.nonNull(courseEntityList) && courseEntityList.size() > NumberConstant.ZERO) {
+//				Comparator<CourseEntity> comparator = findSuitableComparator(sortBy);
+//				List<CourseModel> courseModelList = courseEntityList.stream()
+//						.sorted(comparator)
+//						.map(courseEntity -> {
+//							CourseModel courseModel = modelMapper.map(courseEntity, CourseModel.class);
+//							return courseModel;
+//						})
+//						.collect(Collectors.toList());
+//				return courseModelList;
+//			} else {
+//				return Collections.emptyList();
+			return null;
 		}
+
+
+
 
 		@Override
 		public CourseModel saveRecord(CourseModel courseModel) {
@@ -127,7 +118,7 @@ public class CourseService implements CommonService<CourseModel, Long>{
 			CourseModel courseModel = modelMapper.map(courseEntity, CourseModel.class);
 			return courseModel;
 			}
-		throw new DataNotFoundException("data not found"+id);
+		throw new IllegalArgumentException("data not found"+id);
 		}
 
 		@Override
@@ -152,31 +143,31 @@ public class CourseService implements CommonService<CourseModel, Long>{
 		}
 		
 
-		private Comparator<CourseEntity> findSuitableComparator(String sortBy) {
-			Comparator<CourseEntity> comparator;
-			switch (sortBy) {
-				case "name": {
-					comparator = (courseOne, courseTwo) ->
-					courseOne.getName().compareTo(courseTwo.getName());
-					break;
-				}
-				case "curriculum": {
-					comparator = (courseOne, courseTwo) ->
-					courseOne.getCurriculum().compareTo(courseTwo.getCurriculum());
-					break;
-				}
-				case "duration": {
-					comparator = (courseOne, courseTwo) ->
-					courseOne.getDuration().compareTo(courseTwo.getDuration());
-					break;
-				}
-				default : {
-					comparator = (courseOne, courseTwo) ->
-					courseOne.getId().compareTo(courseTwo.getId());
-				}
-			}
-			return comparator;
-		}
+//		private Comparator<CourseEntity> findSuitableComparator(String sortBy) {
+//			Comparator<CourseEntity> comparator;
+//			switch (sortBy) {
+//				case "name": {
+//					comparator = (courseOne, courseTwo) ->
+//					courseOne.getName().compareTo(courseTwo.getName());
+//					break;
+//				}
+//				case "curriculum": {
+//					comparator = (courseOne, courseTwo) ->
+//					courseOne.getCurriculum().compareTo(courseTwo.getCurriculum());
+//					break;
+//				}
+//				case "duration": {
+//					comparator = (courseOne, courseTwo) ->
+//					courseOne.getDuration().compareTo(courseTwo.getDuration());
+//					break;
+//				}
+//				default : {
+//					comparator = (courseOne, courseTwo) ->
+//					courseOne.getId().compareTo(courseTwo.getId());
+//				}
+//			}
+//			return comparator;
+//		}
 
 
 }

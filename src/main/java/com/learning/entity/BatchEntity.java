@@ -1,14 +1,12 @@
 package com.learning.entity;
 
-import java.time.LocalDate;
-import java.util.Objects;
-
-import javax.persistence.*;
-
 import com.learning.enums.BatchStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.time.LocalDate;
 
 
 @Entity

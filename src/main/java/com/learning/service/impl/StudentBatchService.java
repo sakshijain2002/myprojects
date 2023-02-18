@@ -1,28 +1,21 @@
 package com.learning.service.impl;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import javax.persistence.Id;
-
 import com.learning.constants.NumberConstant;
-import com.learning.exception.DataNotFoundException;
-import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
-
-import com.learning.entity.CourseEntity;
 import com.learning.entity.StudentBatchEntity;
 import com.learning.models.StudentBatchModel;
 import com.learning.repository.StudentBatchRepository;
 import com.learning.service.CommonService;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 	@Service
@@ -68,19 +61,20 @@ import com.learning.service.CommonService;
 		@Override
 		public List<StudentBatchModel> getSortedRecords(String sortBy) {
 
-			List<StudentBatchEntity> studentBatchEntityList = studentBatchRepo.findAll();
-			if (Objects.nonNull(studentBatchEntityList) && studentBatchEntityList.size() > NumberConstant.ZERO) {
-				Comparator<StudentBatchEntity> comparator = findSuitableComparator(sortBy);
-				List<StudentBatchModel> studentBatchModelList = studentBatchEntityList.stream().sorted(comparator)
-						.map(studentBatchEntity -> {
-							StudentBatchModel studentBatchModel = modelMapper.map(studentBatchEntity, StudentBatchModel.class);
-							return studentBatchModel;
-						}).collect(Collectors.toList());
-				return studentBatchModelList;
-			} else {
-				return Collections.emptyList();
-			}
+//			List<StudentBatchEntity> studentBatchEntityList = studentBatchRepo.findAll();
+//			if (Objects.nonNull(studentBatchEntityList) && studentBatchEntityList.size() > NumberConstant.ZERO) {
+//				Comparator<StudentBatchEntity> comparator = findSuitableComparator(sortBy);
+//				List<StudentBatchModel> studentBatchModelList = studentBatchEntityList.stream().sorted(comparator)
+//						.map(studentBatchEntity -> {
+//							StudentBatchModel studentBatchModel = modelMapper.map(studentBatchEntity, StudentBatchModel.class);
+//							return studentBatchModel;
+//						}).collect(Collectors.toList());
+//				return studentBatchModelList;
+//			} else {
+//				return Collections.emptyList();
+//			}
 
+			return null;
 		}
 
 		@Override
@@ -116,7 +110,7 @@ import com.learning.service.CommonService;
 				StudentBatchModel studentBatchModel = modelMapper.map(studentBatchEntity, StudentBatchModel.class);
 				return studentBatchModel;
 			}
-			throw new DataNotFoundException("data not found"+id);
+			throw new IllegalArgumentException("data not found"+id);
 
 		}
 
@@ -138,32 +132,32 @@ import com.learning.service.CommonService;
 		}
 
 
-		private Comparator<StudentBatchEntity> findSuitableComparator(String sortBy) {
-			Comparator<StudentBatchEntity> comparator;
-			switch (sortBy) {
-				case "fees": {
-					comparator = (studentBatchOne, studentBatchTwo) -> studentBatchOne.getFees()
-							.compareTo(studentBatchTwo.getFees());
-					break;
-				}
-				case "batchId": {
-					comparator = (studentBatchOne, studentBatchTwo) -> studentBatchOne.getBatchId()
-							.compareTo(studentBatchTwo.getBatchId());
-					break;
-				}
-				case "studentId": {
-					comparator = (studentBatchOne, studentBatchTwo) -> studentBatchOne.getStudentId()
-							.compareTo(studentBatchTwo.getStudentId());
-					break;
-				}
-				default: {
-					comparator = (studentBatchOne, studentBatchTwo) -> studentBatchOne.getId()
-							.compareTo(studentBatchTwo.getId());
-				}
-			}
-			return comparator;
-
-		}
+//		private Comparator<StudentBatchEntity> findSuitableComparator(String sortBy) {
+//			Comparator<StudentBatchEntity> comparator;
+//			switch (sortBy) {
+//				case "fees": {
+//					comparator = (studentBatchOne, studentBatchTwo) -> studentBatchOne.getFees()
+//							.compareTo(studentBatchTwo.getFees());
+//					break;
+//				}
+//				case "batchId": {
+//					comparator = (studentBatchOne, studentBatchTwo) -> studentBatchOne.getBatchId()
+//							.compareTo(studentBatchTwo.getBatchId());
+//					break;
+//				}
+//				case "studentId": {
+//					comparator = (studentBatchOne, studentBatchTwo) -> studentBatchOne.getStudentId()
+//							.compareTo(studentBatchTwo.getStudentId());
+//					break;
+//				}
+//				default: {
+//					comparator = (studentBatchOne, studentBatchTwo) -> studentBatchOne.getId()
+//							.compareTo(studentBatchTwo.getId());
+//				}
+//			}
+//			return comparator;
+//
+//		}
 	}
 
 		

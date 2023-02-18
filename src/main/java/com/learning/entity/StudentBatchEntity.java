@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Objects;
-
 import javax.persistence.*;
 
 @Data
@@ -15,15 +13,13 @@ import javax.persistence.*;
 @Table(name = "studentBatch")
 
 public class StudentBatchEntity {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	private Double fees;
-	private Long studentId;
-	private Long batchId;
-	
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private Double fees;
+    private Long studentId;
+    private Long batchId;
 
 
 }

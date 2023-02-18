@@ -12,17 +12,17 @@ import org.springframework.context.annotation.Bean;
 
 public class SkillEnhancerBootApplication {
 
-	@Autowired
-	private EmailSender emailSender;
+    @Autowired
+    private EmailSender emailSender;
 
-	public static void main(String[] args) {
-		SpringApplication.run(SkillEnhancerBootApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SkillEnhancerBootApplication.class, args);
+    }
 
-	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
-	}
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 }
 
 

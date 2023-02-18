@@ -7,16 +7,16 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Getter
-    @Setter
-    @Configuration
-    @ConfigurationProperties(prefix ="email-config" )
-    public class EmailConfig {
+@Setter
+@Configuration
+@ConfigurationProperties(prefix = "email-config")
+public class EmailConfig {
 
-        private String message;
-        private String subject;
-        private String attachment;
-        private String from;
+    private String message;
+    private String subject;
+    private String attachment;
+    private String from;
 
-    }
+}
 
 

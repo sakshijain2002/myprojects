@@ -3,9 +3,6 @@ package com.learning.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-
-import java.util.Objects;
 
 import javax.persistence.*;
 
@@ -14,16 +11,16 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name =" course")
+@Table(name = " course")
 public class CourseEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
 
-	private Long id;
-	private String name;
-	private String curriculum;
-	private String duration;
+    private Long id;
+    private String name;
+    private String curriculum;
+    private String duration;
 }
 
 	

@@ -3,7 +3,6 @@ package com.learning.utility.email;
 
 import com.learning.config.EmailConfig;
 import lombok.RequiredArgsConstructor;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
@@ -23,7 +22,7 @@ import java.util.concurrent.CompletableFuture;
 public class EmailSender {
 
     private final JavaMailSender mailSender;
-     private final EmailConfig emailConfigs;
+    private final EmailConfig emailConfigs;
 
     public void mailSenderThread(List<String> emailList) {
 
@@ -52,6 +51,7 @@ public class EmailSender {
         };
         CompletableFuture.runAsync(runnable);
     }
+
     public void sendMailWithAttachment(List<String> emailList) {
 
         Runnable runnable = () -> {

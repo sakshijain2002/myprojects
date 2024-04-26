@@ -1,6 +1,7 @@
 package com.learning.rest;
 
 import com.learning.models.BatchModel;
+import com.learning.models.StudentModel;
 import com.learning.service.impl.BatchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -62,7 +63,10 @@ public class BatchController {
     public BatchModel updateById(@PathVariable Long id, @RequestBody BatchModel batchModel) {
         return batchService.updateRecordById(id, batchModel);
     }
-
+    @PostMapping("/mongo")
+    public BatchModel saveRecordInMongo(@RequestBody BatchModel batchModel) {
+        return batchService.saveRecordInMongo(batchModel);
+    }
 
     @DeleteMapping("/{id}")
     public void deleteRecordById(@PathVariable Long id) {

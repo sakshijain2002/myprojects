@@ -1,8 +1,10 @@
 package com.learning.service.impl;
 
 import com.learning.constants.NumberConstant;
+import com.learning.entity.BatchCollection;
 import com.learning.entity.BatchEntity;
 import com.learning.models.BatchModel;
+import com.learning.repository.BatchMongoRepository;
 import com.learning.repository.BatchRepository;
 import com.learning.service.CommonService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 public class BatchService implements CommonService<BatchModel, Long> {
     private final BatchRepository batchRepo;
     private final ModelMapper modelMapper;
+    private final BatchMongoRepository batchMongoRepository;
 
 
     @Override
@@ -80,6 +83,14 @@ public class BatchService implements CommonService<BatchModel, Long> {
             //BeanUtils.copyProperties(batchModel, batchEntity);
             modelMapper.map(batchModel, batchEntity);
             BatchEntity savedObject = batchRepo.save(batchEntity);
+        }
+        return batchModel;
+    }
+    public BatchModel saveRecordInMongo(BatchModel batchModel){
+        if(Objects.nonNull(batchModel)){
+            BatchCollection batchCollection = new BatchCollection();
+            modelMapper.map(batchModel,batchCollection);
+            BatchCollection savedObject = batchMongoRepository.save(batchCollection);
         }
         return batchModel;
     }

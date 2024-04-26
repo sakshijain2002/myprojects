@@ -1,9 +1,13 @@
 package com.learning.service.impl;
 
 import com.learning.constants.NumberConstant;
+import com.learning.entity.StudentCollection;
+import com.learning.entity.TrainerCollection;
 import com.learning.entity.TrainerEntity;
 import com.learning.exception.DataNotFoundException;
+import com.learning.models.StudentModel;
 import com.learning.models.TrainerModel;
+import com.learning.repository.TrainerMongoRepository;
 import com.learning.repository.TrainerRepository;
 import com.learning.service.CommonService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +24,7 @@ import java.util.stream.Collectors;
 public class TrainerService implements CommonService<TrainerModel, Long> {
     private final TrainerRepository trainerRepo;
     private final ModelMapper modelMapper;
+    private final TrainerMongoRepository trainerMongoRepository;
 
 
     @Override
@@ -103,7 +108,15 @@ public class TrainerService implements CommonService<TrainerModel, Long> {
         return trainerModelList;
 
     }
+    public TrainerModel saveRecordInMongo(TrainerModel trainerModel) {
+        if (Objects.nonNull(trainerModel)) {
+            TrainerCollection trainerCollection = new TrainerCollection();
+            modelMapper.map(trainerModel, trainerCollection);
+            trainerMongoRepository.save(trainerCollection);
+        }
+        return trainerModel;
 
+    }
 
     @Override
     public TrainerModel getRecordById(Long id) {

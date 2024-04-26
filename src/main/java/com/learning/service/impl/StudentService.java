@@ -34,8 +34,9 @@ public class StudentService implements CommonService<StudentModel, Long> {
 
     @Override
     public List<StudentModel> getAllRecords() {
-        List<StudentCollection> studentCollectionList = mongoRepository.findAll();
         List<StudentEntity> studentEntityList = jpaRepository.findAll();
+        List<StudentCollection> studentCollectionList = mongoRepository.findAll();
+
         if (!CollectionUtils.isEmpty(studentCollectionList)) {
             List<StudentModel> studentModelList = studentCollectionList.stream()
                     .map(studentCollection ->
@@ -59,7 +60,15 @@ public class StudentService implements CommonService<StudentModel, Long> {
     @Override
     public List<StudentModel> getLimitedRecords(int count) {
         List<StudentEntity> studentEntityList = jpaRepository.findAll();
-        if (Objects.nonNull(studentEntityList) && studentEntityList.size() > NumberConstant.ZERO) {
+        List<StudentCollection> studentCollectionList = mongoRepository.findAll();
+        if(Objects.nonNull(studentCollectionList)&& studentCollectionList.size() >NumberConstant.ZERO){
+            List<StudentModel> studentModelList = studentCollectionList.stream()
+                    .limit(count)
+                    .map(studentCollection ->modelMapper.map(studentCollection, StudentModel.class)
+                    ).collect(Collectors.toList());
+            return studentModelList;
+        }
+       else if (Objects.nonNull(studentEntityList) && studentEntityList.size() > NumberConstant.ZERO) {
             List<StudentModel> studentModelList = studentEntityList.stream()
                     .limit(count)
                     .map(studentEntity -> {
@@ -71,6 +80,7 @@ public class StudentService implements CommonService<StudentModel, Long> {
         } else {
             return Collections.emptyList();
         }
+
 
     }
 
@@ -92,7 +102,6 @@ public class StudentService implements CommonService<StudentModel, Long> {
         } else return Collections.emptyList();
     }
 
-    //TODO:Revise completableFuture
     @Override
     public StudentModel saveRecord(StudentModel studentModel) {
         if (Objects.nonNull(studentModel)) {
@@ -162,6 +171,9 @@ public class StudentService implements CommonService<StudentModel, Long> {
     @Override
     public void deleteRecordById(Long id) {
         jpaRepository.deleteById(id);
+    }
+    public void deleteRecordByIdInMongo(Long id) {
+        mongoRepository.deleteById(id);
     }
 
     @Override

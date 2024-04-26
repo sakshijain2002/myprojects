@@ -1,8 +1,10 @@
 package com.learning.service.impl;
 
 import com.learning.constants.NumberConstant;
+import com.learning.entity.StudentBatchCollection;
 import com.learning.entity.StudentBatchEntity;
 import com.learning.models.StudentBatchModel;
+import com.learning.repository.StudentBatchMongoRepo;
 import com.learning.repository.StudentBatchRepository;
 import com.learning.service.CommonService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ public class StudentBatchService implements CommonService<StudentBatchModel, Lon
 
     private final StudentBatchRepository studentBatchRepo;
     private final ModelMapper modelMapper;
+    private final StudentBatchMongoRepo studentBatchMongoRepo;
 
 
     @Override
@@ -78,6 +81,14 @@ public class StudentBatchService implements CommonService<StudentBatchModel, Lon
             StudentBatchEntity studentBatchEntity = new StudentBatchEntity();
             BeanUtils.copyProperties(studentBatchModel, studentBatchEntity);
             StudentBatchEntity savedObject = studentBatchRepo.save(studentBatchEntity);
+        }
+        return studentBatchModel;
+    }
+    public StudentBatchModel saveRecordINMongo(StudentBatchModel studentBatchModel) {
+        if (Objects.nonNull(studentBatchModel)) {
+            StudentBatchCollection studentBatchCollection = new StudentBatchCollection();
+            BeanUtils.copyProperties(studentBatchModel, studentBatchCollection);
+            StudentBatchCollection savedObject = studentBatchMongoRepo.save(studentBatchCollection);
         }
         return studentBatchModel;
     }

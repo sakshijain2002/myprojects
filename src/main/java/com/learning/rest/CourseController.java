@@ -1,6 +1,7 @@
 package com.learning.rest;
 
 import com.learning.models.CourseModel;
+import com.learning.models.TrainerModel;
 import com.learning.service.impl.CourseService;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,11 +62,25 @@ public class CourseController {
     public CourseModel updateById(@PathVariable Long id, @RequestBody CourseModel courseModel) {
         return courseService.updateRecordById(id, courseModel);
     }
+    @PutMapping("/mongo/{id}")
+    public CourseModel updateByIdInMongo(@PathVariable Long id, @RequestBody CourseModel courseModel) {
+        return courseService.updateRecordByIdInMongo(id, courseModel);
+    }
 
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
         courseService.deleteRecordById(id);
 
     }
+    @DeleteMapping("/mongo/{id}")
+    public void deleteByIdInMongo(@PathVariable Long id) {
+        courseService.deleteRecordByIdInMongo(id);
 
+    }
+    @PostMapping("/mongo")
+    public CourseModel saveRecordInMongo(@RequestBody CourseModel courseModel) {
+        return courseService.saveRecordInMongo(courseModel);
+    }
 }
+
+

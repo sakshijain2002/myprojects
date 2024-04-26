@@ -60,6 +60,10 @@ public class StudentBatchController {
     public StudentBatchModel updateById(@PathVariable Long id, @RequestBody StudentBatchModel studentBatchModel) {
         return studentBatchService.updateRecordById(id, studentBatchModel);
     }
+    @PostMapping("/mongo")
+    public StudentBatchModel saveRecordInMongo(@RequestBody StudentBatchModel studentBatchModel) {
+        return studentBatchService.saveRecordINMongo(studentBatchModel);
+    }
 
 
     @DeleteMapping()

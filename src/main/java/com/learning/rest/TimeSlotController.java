@@ -56,6 +56,10 @@ public class TimeSlotController {
             return Collections.emptyList();
         }
     }
+    @PostMapping("/mongo")
+    public TimeSlotModel saveRecordInMongo(@RequestBody TimeSlotModel timeSlotModel) {
+        return timeSlotService.saveRecordInMongo(timeSlotModel);
+    }
 
     @PutMapping("/{id}")
     public TimeSlotModel updateById(@PathVariable Long id, @RequestBody TimeSlotModel timeSlotModel) {

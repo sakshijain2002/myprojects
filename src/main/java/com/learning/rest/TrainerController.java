@@ -1,5 +1,6 @@
 package com.learning.rest;
 
+import com.learning.models.StudentModel;
 import com.learning.models.TrainerModel;
 import com.learning.service.impl.TrainerService;
 import org.springframework.web.bind.annotation.*;
@@ -66,6 +67,10 @@ public class TrainerController {
     @DeleteMapping()
     public void deleteRecordById(Long id) {
         trainerService.deleteRecordById(id);
+    }
+    @PostMapping("/mongo")
+    public TrainerModel saveRecordInMongo(@RequestBody TrainerModel trainerModel) {
+        return trainerService.saveRecordInMongo(trainerModel);
     }
 }
 

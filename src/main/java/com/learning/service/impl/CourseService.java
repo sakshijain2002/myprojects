@@ -1,8 +1,12 @@
 package com.learning.service.impl;
 
 import com.learning.constants.NumberConstant;
+import com.learning.entity.CourseCollection;
 import com.learning.entity.CourseEntity;
+import com.learning.entity.TrainerCollection;
 import com.learning.models.CourseModel;
+import com.learning.models.TrainerModel;
+import com.learning.repository.CourseMongoRepository;
 import com.learning.repository.CourseRepository;
 import com.learning.service.CommonService;
 import lombok.RequiredArgsConstructor;
@@ -22,23 +26,47 @@ public class CourseService implements CommonService<CourseModel, Long> {
     private final CourseRepository courseRepo;
     private final ModelMapper modelMapper;
 
-
+    private final CourseMongoRepository courseMongoRepository;
     @Override
     public List<CourseModel> getAllRecords() {
-        List<CourseEntity> courseEntityList = courseRepo.findAll();
+        List<CourseEntity> courseEntityList = courseRepo.findAll(); // Fetch data from JPA repository
+        List<CourseCollection> courseCollectionList = courseMongoRepository.findAll(); // Fetch data from MongoDB repository
+
+        List<CourseModel> combinedList = new ArrayList<>();
+
+        // Map JPA entities to CourseModel and add to combinedList
         if (!CollectionUtils.isEmpty(courseEntityList)) {
-            List<CourseModel> courseModelList = courseEntityList.stream()
-                    .map(courseEntity -> {
-                        CourseModel courseModel = new CourseModel();
-                        modelMapper.map(courseEntity, courseModel);
-                        return courseModel;
-                    })
-                    .collect(Collectors.toList());
-            return courseModelList;
-        } else {
-            return Collections.emptyList();
+            combinedList.addAll(courseEntityList.stream()
+                    .map(courseEntity -> modelMapper.map(courseEntity, CourseModel.class))
+                    .collect(Collectors.toList()));
         }
+
+        // Map MongoDB documents to CourseModel and add to combinedList
+        if (!CollectionUtils.isEmpty(courseCollectionList)) {
+            combinedList.addAll(courseCollectionList.stream()
+                    .map(courseCollection -> modelMapper.map(courseCollection, CourseModel.class))
+                    .collect(Collectors.toList()));
+        }
+
+        return combinedList;
     }
+
+//    @Override
+//    public List<CourseModel> getAllRecords() {
+//        List<CourseEntity> courseEntityList = courseRepo.findAll();
+//        if (!CollectionUtils.isEmpty(courseEntityList)) {
+//            List<CourseModel> courseModelList = courseEntityList.stream()
+//                    .map(courseEntity -> {
+//                        CourseModel courseModel = new CourseModel();
+//                        modelMapper.map(courseEntity, courseModel);
+//                        return courseModel;
+//                    })
+//                    .collect(Collectors.toList());
+//            return courseModelList;
+//        } else {
+//            return Collections.emptyList();
+//        }
+//    }
 
     @Override
     public List<CourseModel> getLimitedRecords(int count) {
@@ -105,6 +133,15 @@ public class CourseService implements CommonService<CourseModel, Long> {
 
 
         }
+    public CourseModel saveRecordInMongo(CourseModel courseModel) {
+        if (Objects.nonNull(courseModel)) {
+            CourseCollection courseCollection = new CourseCollection();
+            modelMapper.map(courseModel, courseCollection);
+            courseMongoRepository.save(courseCollection);
+        }
+        return courseModel;
+
+    }
 
         @Override
         public CourseModel getRecordById (Long id){
@@ -122,6 +159,10 @@ public class CourseService implements CommonService<CourseModel, Long> {
             courseRepo.deleteById(id);
 
         }
+    public void deleteRecordByIdInMongo (Long id){
+        courseMongoRepository.deleteById(id);
+
+    }
 
         @Override
         public CourseModel updateRecordById (Long id, CourseModel record){
@@ -136,6 +177,19 @@ public class CourseService implements CommonService<CourseModel, Long> {
             }
             return record;
         }
+    public CourseModel updateRecordByIdInMongo(Long id, CourseModel record){
+
+
+        Optional<CourseCollection> optionalCourseCollection = courseMongoRepository.findById(id);
+        if (optionalCourseCollection.isPresent()) {
+            CourseCollection courseCollection = optionalCourseCollection.get();
+            modelMapper.map(record, courseCollection);
+
+            courseMongoRepository.save(courseCollection);
+        }
+        return record;
+    }
+
 
         private Comparator<CourseEntity> findSuitableComparator (String sortBy){
             Comparator<CourseEntity> comparator;

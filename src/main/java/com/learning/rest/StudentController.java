@@ -20,7 +20,7 @@ public class StudentController {
     private final StudentService studentService;
 
 
-    @GetMapping
+    @GetMapping("/getall")
     public List<StudentModel> getAllStudent() {
         return studentService.getAllRecords();
     }
@@ -35,6 +35,7 @@ public class StudentController {
             return studentService.getSortedRecords(sortBy);
         }
     }
+
 
     @PostMapping("/all")
     public List<StudentModel> save(@RequestBody List<StudentModel> studentModelList) {
@@ -65,6 +66,11 @@ public class StudentController {
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
         studentService.deleteRecordById(id);
+
+    }
+    @DeleteMapping("/mongo/{id}")
+    public void deleteByIdInMongo(@PathVariable Long id) {
+        studentService.deleteRecordByIdInMongo(id);
 
     }
 

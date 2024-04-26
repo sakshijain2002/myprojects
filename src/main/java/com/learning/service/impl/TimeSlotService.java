@@ -1,9 +1,11 @@
 package com.learning.service.impl;
 
 import com.learning.constants.NumberConstant;
+import com.learning.entity.TimeSlotCollection;
 import com.learning.entity.TimeSlotEntity;
 import com.learning.exception.DataNotFoundException;
 import com.learning.models.TimeSlotModel;
+import com.learning.repository.TimeSlotMongoRepo;
 import com.learning.repository.TimeSlotRepository;
 import com.learning.service.CommonService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ public class TimeSlotService implements CommonService<TimeSlotModel, Long> {
 
     private final TimeSlotRepository timeSlotRepo;
     private final ModelMapper modelMapper;
+    private final TimeSlotMongoRepo timeSlotMongoRepo;
 
 
     @Override
@@ -84,6 +87,14 @@ public class TimeSlotService implements CommonService<TimeSlotModel, Long> {
         }
         return timeSlotModel;
     }
+    public TimeSlotModel saveRecordInMongo(TimeSlotModel timeSlotModel) {
+        if (Objects.nonNull(timeSlotModel)) {
+            TimeSlotCollection timeSlotCollection = new TimeSlotCollection();
+            modelMapper.map(timeSlotModel, timeSlotCollection);
+            timeSlotMongoRepo.save(timeSlotCollection);
+        }
+        return timeSlotModel;
+    }
 
     @Override
     public List<TimeSlotModel> saveAll(List<TimeSlotModel> timeSlotModelList) {
@@ -116,7 +127,6 @@ public class TimeSlotService implements CommonService<TimeSlotModel, Long> {
     public void deleteRecordById(Long id) {
         timeSlotRepo.deleteById(id);
     }
-
     @Override
     public TimeSlotModel updateRecordById(Long id, TimeSlotModel record) {
         Optional<TimeSlotEntity> optionalTimeSlotEntity = timeSlotRepo.findById(id);
